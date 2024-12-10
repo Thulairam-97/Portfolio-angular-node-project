@@ -1,0 +1,105 @@
+.no-buses-message {
+    text-align: center;
+    margin: 1rem 0;
+    color: gray;
+    font-size: 1.2rem;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  mat-card {
+    margin: 2rem auto;
+    max-width: 800px;
+  }
+
+  ::ng-deep .mat-dialog-container {
+    max-height: 90vh; /* Restrict the dialog height */
+    overflow: hidden; /* Prevent scroll outside the dialog */
+  }
+  
+  ::ng-deep .mat-dialog-content {
+    max-height: 70vh; /* Allow content scrolling */
+    overflow-y: auto; /* Enable vertical scrolling for content */
+  }
+
+
+/* Style for the heading */
+.container h1 {
+  font-size: 2.5rem; /* Large font size */
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333; /* Darker text color */
+}
+
+/* Adjust button size */
+button[mat-fab] {
+  width: 56px;
+  height: 56px;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+/* Style for the table */
+table.mat-elevation-z8 {
+  width: 80%; /* Occupies 80% of the container */
+  font-size: 1.2rem; /* Increase font size for readability */
+  margin-top: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Adjust table header */
+.mat-header-cell {
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+/* Adjust table cells */
+.mat-cell {
+  text-align: center;
+  padding: 16px;
+}
+
+/* No buses message */
+.no-buses {
+  font-size: 1.5rem;
+  color: #777;
+}
+
+/* Container styles */
+.container {
+  padding: 20px; /* Add padding around the container */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Align the button to the right */
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px; /* Add spacing between the button and the table */
+}
+
+/* Table styles */
+table.mat-elevation-z8 {
+  width: 100%; /* Full width for the table */
+  margin-top: 20px; /* Space between the heading and the table */
+}
+
+.mat-header-cell,
+.mat-cell {
+  text-align: center; /* Center-align the table content */
+}
+
+
+.mat-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+}
+button {
+  margin: 5px;
+}

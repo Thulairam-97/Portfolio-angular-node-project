@@ -1,0 +1,198 @@
+.bus-search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .bus-search-card {
+    width: 500px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: white;
+  }
+  
+  .full-width {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  .seating-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .seating-card {
+    width: 600px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: white;
+    text-align: center;
+  }
+  
+  .seating-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .seat-pair-row {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 30px; /* Default gap between seats */
+  }
+  
+  .seat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    background-color: #ececec;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+
+  .seat.even-seat {
+    margin-right: 50px; 
+  }
+  
+  .seat.odd-seat {
+    margin-left: 70px; 
+  }
+  
+  .seat.selected {
+    background-color: #4caf50; /* Green for selected */
+    color: white;
+  }
+  
+  .selected-seats {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  
+
+  .payment-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+    padding: 20px;
+  }
+  
+  .payment-header {
+    margin-bottom: 20px;
+  }
+  
+  .razorpay-logo {
+    width: 150px;
+  }
+  
+  .payment-card {
+    width: 400px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .payment-title {
+    margin-bottom: 20px;
+  }
+  
+  .payment-details {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .payment-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .pay-button {
+    flex: 1;
+  }
+  
+  .cancel-button {
+    flex: 1;
+  }
+  
+  .payment-footer {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .secure-icon {
+    width: 50px;
+    margin-bottom: 5px;
+  }
+
+  .success-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0fff4; /* Light green background */
+    padding: 40px;
+    text-align: center;
+  }
+  
+  .success-icon img {
+    width: 120px;
+    margin-bottom: 20px;
+  }
+  
+  .success-title {
+    font-size: 2rem;
+    color: #2e7d32;
+    margin-bottom: 20px;
+  }
+  
+  .success-message {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 30px;
+  }
+  
+  .success-details {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    text-align: left;
+    font-size: 1rem;
+    width: 300px;
+  }
+  
+  .success-details p {
+    margin: 10px 0;
+  }
+  
+  .success-actions button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+  

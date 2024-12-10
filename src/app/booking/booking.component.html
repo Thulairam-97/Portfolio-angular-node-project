@@ -1,0 +1,138 @@
+<div class="bus-search-container">
+    <mat-card class="bus-search-card" *ngIf="currentStep === ''">
+      <h2>Book Your Bus</h2>
+      <form (ngSubmit)="onSearch()">
+        <!-- Source Input -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Source</mat-label>
+          <mat-select [(ngModel)]="source" name="source" required>
+            <mat-option *ngFor="let city of cities" [value]="city">{{ city }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <!-- Destination Input -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Destination</mat-label>
+          <mat-select [(ngModel)]="destination" name="destination" required>
+            <mat-option *ngFor="let city of cities" [value]="city">{{ city }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <!-- Date Picker -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Travel Date</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="travelDate" name="travelDate" required />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+   
+        <!-- Search Button -->
+        <button mat-raised-button color="primary" class="full-width" type="submit">Search</button>
+      </form>
+    </mat-card>
+
+    <div class="seating-container" *ngIf="currentStep === 'seat_selection'">
+        <mat-card class="seating-card">
+            <h2>Select Your Seats</h2>
+            <div class="seating-grid">
+            <div *ngFor="let row of seatingRows; let rowIndex = index">
+                <div class="seat-pair-row">
+                <div
+                    *ngFor="let seat of row; let seatIndex = index"
+                    class="seat"
+                    [class.selected]="seat.selected"
+                    [ngClass]="{
+                        'even-seat': isEvenIndex(seatIndex),
+                        'odd-seat': !isEvenIndex(seatIndex)
+                    }"
+                    (click)="toggleSeat(rowIndex, seatIndex)"
+                >
+                    {{ seat.id }}
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="selected-seats">
+            <p>Selected Seats: {{ selectedSeats }}</p>
+            </div>
+            <button mat-raised-button color="primary" (click)="proceedToPayment()">
+                Proceed to Payment
+            </button>
+        </mat-card>         
+    </div>
+
+
+    <div class="payment-container" *ngIf="currentStep === 'payment_selection'">
+        <div class="payment-header">
+            <h2>Payment</h2>
+        </div>
+        <mat-card class="payment-card">
+            <h3 class="payment-title">Payment Summary</h3>
+            <div class="payment-details">
+            <p><strong>Seats:</strong> {{ seats.join(', ') }}</p>
+            <p><strong>Total Amount:</strong> ₹{{ amount }}</p>
+            </div>
+            <div class="payment-actions">
+            <button
+                mat-raised-button
+                color="primary"
+                class="pay-button"
+                (click)="makePayment()"
+            >
+                Pay Now
+            </button>
+            <button
+                mat-raised-button
+                color="warn"
+                class="cancel-button"
+                (click)="cancelPayment()"
+            >
+                Cancel
+            </button>
+            </div>
+        </mat-card>
+        <div class="payment-footer">
+            <p>100% secure payment</p>
+        </div>
+    </div>
+
+    <div class="success-container"  *ngIf="currentStep === 'success_selection'">
+        <div class="success-icon">
+          <img src="assets/success-icon.png" alt="Success" />
+        </div>
+        <h1 class="success-title">Payment Successful!</h1>
+        <p class="success-message">
+          Thank you for your payment. Your booking is confirmed.
+        </p>
+        <div class="success-details">
+          <p><strong>Transaction ID:</strong> {{ transactionId }}</p>
+          <p><strong>Seats:</strong> {{ seats.join(', ') }}</p>
+          <p><strong>Amount Paid:</strong> ₹{{ amount }}</p>
+          <p><strong>Booking Date:</strong> {{ bookingDate }}</p>
+        </div>
+        <div class="success-actions">
+          <button
+            mat-raised-button
+            color="primary"
+            class="download-button"
+            (click)="downloadTicket()"
+          >
+            Download Ticket
+          </button>
+          <button
+            mat-raised-button
+            color="accent"
+            class="logout-button"
+            (click)="logout()"
+          >
+            Log Out
+          </button>
+        </div>
+      </div>
+      
+
+      
+      
+      
+</div>
+  

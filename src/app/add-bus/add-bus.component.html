@@ -1,0 +1,104 @@
+<div class="container">
+  <h1>Bus Management</h1>
+  <div  class="button-container">
+    <button mat-fab color="primary" (click)="openAddBusDialog(addBusDialog)">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+<table mat-table [dataSource]="busList" class="mat-elevation-z8" *ngIf="busList.length; else noBuses">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let bus"> {{ bus.id }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="bus_number">
+    <th mat-header-cell *matHeaderCellDef> Bus Number </th>
+    <td mat-cell *matCellDef="let bus"> {{ bus.bus_number }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="starting_point">
+    <th mat-header-cell *matHeaderCellDef> Starting Point </th>
+    <td mat-cell *matCellDef="let bus"> {{ bus.starting_point }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="ending_point">
+    <th mat-header-cell *matHeaderCellDef> Ending Point </th>
+    <td mat-cell *matCellDef="let bus"> {{ bus.ending_point }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="departure_time">
+    <th mat-header-cell *matHeaderCellDef> Departure Time </th>
+    <td mat-cell *matCellDef="let bus"> {{ bus.departure_time }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="arrival_time">
+    <th mat-header-cell *matHeaderCellDef> Arrival Time </th>
+    <td mat-cell *matCellDef="let bus"> {{ bus.arrival_time }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let bus">
+      <button mat-icon-button color="primary" (click)="openAddBusDialog(addBusDialog);fetchBuses(bus.id);">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="deleteBus(bus.id,bus.bus_number)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<ng-template #noBuses>
+  <p>No buses found.</p>
+</ng-template>
+</div>
+
+<ng-template #addBusDialog>
+  <h2>Add New Bus</h2>
+  <form [formGroup]="addBusForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Bus Number</mat-label>
+      <input matInput formControlName="bus_number" type="text" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Starting Point</mat-label>
+      <mat-select formControlName="starting_point" (selectionChange)="onStartingPointChange($event.value)">
+        <mat-option *ngFor="let city of cities" [value]="city">{{ city }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Ending Point</mat-label>
+      <mat-select formControlName="ending_point">
+        <mat-option *ngFor="let city of filteredCities" [value]="city">{{ city }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Travel Date</mat-label>
+      <input matInput formControlName="travel_date" type="date" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Departure Time</mat-label>
+      <input matInput formControlName="departure_time" type="time" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Arrival Time</mat-label>
+      <input matInput formControlName="arrival_time" type="time" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Seats Available</mat-label>
+      <input matInput formControlName="seats_available" type="number" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Price</mat-label>
+      <input matInput formControlName="price" type="number" />
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="addBus()"  *ngIf="!isEditing">Add Bus</button>
+    <button mat-raised-button color="primary" (click)="editBus()"  *ngIf="isEditing">Edit Bus</button>
+  </form>
+</ng-template>

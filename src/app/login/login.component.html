@@ -1,0 +1,104 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <h2>{{ isRegistering ? 'Register' : 'Login' }}</h2>
+    <form #authForm="ngForm" (ngSubmit)="onSubmit(isRegistering,authForm)">
+      <!-- Email Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="email"
+          name="email"
+          [(ngModel)]="email"
+          required
+          [pattern]="emailPattern"
+          #emailCtrl="ngModel"
+        />
+        <mat-error *ngIf="emailCtrl?.errors?.['required']">
+          Email is required.
+        </mat-error>
+        <mat-error *ngIf="emailCtrl?.errors?.['pattern']">
+          Please enter a valid email address.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Phone Number Field (Only for Register) -->
+      <div *ngIf="isRegistering">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Phone Number</mat-label>
+          <input
+            matInput
+            type="text"
+            name="phoneNumber"
+            [(ngModel)]="phoneNumber"
+            required
+            [pattern]="phonePattern"
+            #phoneCtrl="ngModel"
+          />
+          <mat-error *ngIf="phoneCtrl?.errors?.['required']">
+            Phone number is required.
+          </mat-error>
+          <mat-error *ngIf="phoneCtrl?.errors?.['pattern']">
+            Enter a valid 10-digit phone number.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Password Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+          [pattern]="passwordPattern"
+          #passwordCtrl="ngModel"
+        />
+        <mat-error *ngIf="passwordCtrl?.errors?.['required']">
+          Password is required.
+        </mat-error>
+        <mat-error *ngIf="passwordCtrl?.errors?.['pattern']">
+          Password must be at least 8 characters long, include one uppercase letter, one number, and one special character.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Role Selection (Only for Register) -->
+      <div *ngIf="isRegistering">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Role</mat-label>
+          <mat-select
+            name="role"
+            [(ngModel)]="role"
+            required
+            #roleCtrl="ngModel"
+          >
+            <mat-option value="Admin">Admin</mat-option>
+            <mat-option value="User">User</mat-option>
+          </mat-select>
+          <mat-error *ngIf="roleCtrl?.errors?.['required']">
+            Role is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        mat-raised-button
+        color="primary"
+        class="full-width"
+        type="submit"
+        [disabled]="authForm.invalid"
+      >
+        {{ isRegistering ? 'Register' : 'Login' }}
+      </button>
+    </form>
+    <p>
+      {{ isRegistering ? 'Already have an account?' : 'New user?' }}
+      <a (click)="toggleMode()" routerLink="">
+        {{ isRegistering ? 'Login' : 'Create an account' }}
+      </a>
+    </p>
+  </mat-card>
+</div>

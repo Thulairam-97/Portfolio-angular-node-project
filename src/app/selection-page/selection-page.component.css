@@ -1,0 +1,33 @@
+.selection-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .selection-icons {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+  }
+  
+  .icon-card {
+    width: 150px;
+    height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .icon-card:hover {
+    transform: scale(1.1);
+  }
+  
+  .big-icon {
+    font-size: 50px;
+    color: #3f51b5;
+  }
+  

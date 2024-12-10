@@ -1,1 +1,72 @@
 /* You can add global styles to this file, and also import other style files */
+/* @import '@angular/material/prebuilt-themes/indigo-pink.css'; */
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+section {
+    display: table;
+  }
+  
+  .example-label {
+    display: table-cell;
+    font-size: 14px;
+    margin-left: 8px;
+    min-width: 120px;
+  }
+  
+  .example-button-row {
+    display: table-cell;
+    max-width: 600px;
+  }
+  
+  .example-button-row .mat-mdc-button-base {
+    margin: 8px 8px 8px 0;
+  }
+  
+  .example-flex-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .example-button-container {
+    display: flex;
+    justify-content: center;
+    width: 140px;
+  }
+  
+
+  .selection-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .selection-icons {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+  }
+  
+  .icon-card {
+    width: 150px;
+    height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .icon-card:hover {
+    transform: scale(1.1);
+  }
+  
+  .big-icon {
+    font-size: 50px;
+    color: #3f51b5;
+  }
+  
