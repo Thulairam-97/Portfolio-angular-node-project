@@ -143,8 +143,8 @@ export class AddBusComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Proceed with deletion
-        this.http.delete(`${this.baseUrl}api/buses/${busId}`).subscribe((response: any) => {
+        
+        this.http.post(this.baseUrl+'api/login/deleteBuses', {id: busId}).subscribe((response: any) => {
           this.showErrorMessage(response.msg);
           this.fetchBuses('');  // Refresh the list of buses
         }, (error) => {

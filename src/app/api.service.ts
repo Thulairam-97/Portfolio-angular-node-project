@@ -37,7 +37,15 @@ export class ApiService {
       return this.userData;
   }
 
-    // fetchData(endpoint: string): Observable<any> {
-    //   return this.http.get(`${this.baseUrl}${endpoint}`);
-    // }
+
+    logout(): Observable<any> {
+      const logoutUrl = `${this.baseUrl}api/login/logout`; 
+      const token = localStorage.getItem('jwtToken'); // Get the JWT token from localStorage
+    
+      const headers = { Authorization: `Bearer ${token}` };
+    
+      return this.http.post(logoutUrl, {}, { headers });
+    }
 }
+
+
