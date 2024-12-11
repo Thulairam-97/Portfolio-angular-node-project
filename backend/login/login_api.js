@@ -152,7 +152,6 @@ router.route('/register').post(function (req, res) {
 router.route('/fetchBuses').post(function (req, res) {
     console.log("fetchreq",req);
     let id = req.body.id;
-    console.log("id",id);
     
     let checkUserQuery = 'SELECT * FROM buses';
 
@@ -276,6 +275,39 @@ router.route('/editBuses').post(function (req, res) {
     });
 });
 
+
+router.route('/deleteBuses').post(function (req, res) {
+    let id = req.body.id;
+    
+    const deleteQuery = 'DELETE FROM buses WHERE id = ?';
+  
+    mysqlConnection.query(deleteQuery, [id], (err, result) => {
+      if (err) {
+        console.error('Error deleting bus:', err);
+        return res.status(200).json({ msg: 'Failed to delete bus. Please try again.' });
+      }
+  
+      if (result.affectedRows === 0) {
+        return res.status(200).json({ msg: 'Bus not found.' });
+      }
+  
+      res.status(200).json({ msg: 'Bus deleted successfully.' });
+    });
+  });
+
+ 
+
+  router.route('/logout').post(function (req, res) {
+    let tokenBlacklist = [];
+    const token = req.headers['authorization']?.split(' ')[1]; 
+
+    if (token) {
+        tokenBlacklist.push(token); 
+        return res.status(200).json({ status: 1, msg: 'Logged out successfully' });
+    } else {
+        return res.status(400).json({ status: 0, msg: 'No token provided' });
+    }
+   });
 
 
 
