@@ -1,6 +1,6 @@
 .sidenav-container {
     height: 100vh;
-    margin-top: 64px; /* Adjust for toolbar height */
+    margin-top: 64px; 
 }
 
 mat-sidenav {
@@ -10,11 +10,13 @@ mat-sidenav {
 
 .active-link {
     font-weight: bold;
-    color: #1976d2; /* Example: Material Design blue */
-    background-color: #e3f2fd; /* Light blue background */
-    border-left: 4px solid #1976d2; /* Add a left border for emphasis */
+    color: #1976d2;
+    background-color: #e3f2fd;
+    border-left: 4px solid #1976d2; 
 }
 
 .mat-sidenav-container.no-scroll {
-    overflow: hidden; /* Disable scrolling for the sidenav container */
+    overflow: hidden; 
   }
+
+  

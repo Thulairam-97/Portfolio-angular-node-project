@@ -18,12 +18,14 @@ export class AddBusComponent implements OnInit {
   isEditing: boolean = false;
   busData: any = {};
   busList : any[] = []; // Replace with your API data
-  displayedColumns: string[] = ['id', 'bus_number', 'starting_point', 'ending_point', 'departure_time', 'arrival_time', 'actions'];
+  displayedColumns: string[] = ['travel_date', 'bus_number', 'starting_point', 'ending_point', 'departure_time', 'arrival_time', 'actions'];
+  minDate: string;
 
   constructor(private fb: FormBuilder, private http: HttpClient,private snackBar: MatSnackBar,  @Inject(NODE_API_PATH) private baseUrl: string,private dialog: MatDialog,private cdr: ChangeDetectorRef) {
     this.addBusForm = this.fb.group({
       id:[null],
       bus_number: ['', Validators.required],
+      operator: ['',Validators.required],
       starting_point: ['', Validators.required],
       ending_point: ['', Validators.required],
       departure_time: ['', Validators.required],
@@ -32,6 +34,8 @@ export class AddBusComponent implements OnInit {
       seats_available: ['', [Validators.required, Validators.min(1)]],
       price: ['', [Validators.required, Validators.min(0)]],
     });
+    const today = new Date();
+    this.minDate = today.toISOString().split('T')[0]
   }
   cities: string[] = [
     'Chennai', 'Coimbatore', 'Madurai', 'Trichy', 'Salem', 
@@ -40,9 +44,8 @@ export class AddBusComponent implements OnInit {
   filteredCities: string[] = [...this.cities]; 
 
   onStartingPointChange(selectedCity: string) {
-    // Filter out the selected starting point from the ending point options
     this.filteredCities = this.cities.filter(city => city !== selectedCity);
-    this.addBusForm.patchValue({ ending_point: null }); // Reset ending point value
+    this.addBusForm.patchValue({ ending_point: null });
   }
 
 
@@ -82,6 +85,7 @@ export class AddBusComponent implements OnInit {
           this.busData = { 
             id: id,
             bus_number: busDetails.bus_number,
+            operator: busDetails.operator, 
             starting_point: busDetails.starting_point,
             ending_point: busDetails.ending_point,
             travel_date: busDetails.travel_date,

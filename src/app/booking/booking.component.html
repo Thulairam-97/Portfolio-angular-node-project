@@ -1,11 +1,17 @@
 <div class="bus-search-container">
+
+    <div class="fixed-top-left" *ngIf="currentStep !== ''">
+      <button mat-raised-button color="primary" (click)="goBack()">
+        Back
+      </button>
+    </div>
     <mat-card class="bus-search-card" *ngIf="currentStep === ''">
       <h2>Book Your Bus</h2>
       <form (ngSubmit)="onSearch()">
         <!-- Source Input -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Source</mat-label>
-          <mat-select [(ngModel)]="source" name="source" required>
+          <mat-select [(ngModel)]="source" name="source" required (selectionChange)="onStartingPointChange($event.value)">
             <mat-option *ngFor="let city of cities" [value]="city">{{ city }}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -14,14 +20,14 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Destination</mat-label>
           <mat-select [(ngModel)]="destination" name="destination" required>
-            <mat-option *ngFor="let city of cities" [value]="city">{{ city }}</mat-option>
+            <mat-option *ngFor="let city of filteredCities" [value]="city">{{ city }}</mat-option>
           </mat-select>
         </mat-form-field>
   
         <!-- Date Picker -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Travel Date</mat-label>
-          <input matInput [matDatepicker]="picker" [(ngModel)]="travelDate" name="travelDate" required />
+          <input matInput [matDatepicker]="picker" [(ngModel)]="travelDate" name="travelDate" [min]="minDate" required />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -30,6 +36,55 @@
         <button mat-raised-button color="primary" class="full-width" type="submit">Search</button>
       </form>
     </mat-card>
+    
+
+    <div class="bus-list" *ngIf="currentStep === 'bus_selection' && busList.length > 0">
+      <div class="header">
+        <div class="route">
+          <h2>{{this.source}} ➔ {{this.destination}}</h2>
+          <span>{{busList.length}} Buses</span>
+        </div>
+        <div class="actions">
+          <button mat-button>
+            <mat-icon>filter_alt</mat-icon> Filters
+          </button>
+          <button mat-button>
+            <mat-icon>sort</mat-icon> Sort
+          </button>
+        </div>
+      </div>
+    
+      <mat-card *ngFor="let bus of busList" class="bus-card">
+        <div class="bus-header">
+          <span class="timing">{{ bus.departure_time }} - {{ bus.arrival_time }}</span>
+          <span class="price">₹{{ bus.price }}</span>
+        </div>
+        <div class="bus-details">
+          <h3>{{ bus.operator }}</h3>
+          <p>{{ calculateDuration(bus.departure_time, bus.arrival_time) }} | {{ bus.seats_available }} Seats (Single)</p>
+        </div>
+        <div>
+          <button
+          mat-raised-button
+          color="accent"
+          class="pay-button"
+          (click)="seatChoose(bus)">
+            Book
+          </button>
+        </div>
+      </mat-card>
+    </div>
+
+    <div class="bus-list" *ngIf="currentStep === 'bus_selection' && busList?.length === 0">
+          <p>No Buses Found</p>
+          <button
+          mat-raised-button
+          color="primary"
+          class="pay-button"
+          (click)="goBack()">
+          Go Back
+          </button>
+    </div>
 
     <div class="seating-container" *ngIf="currentStep === 'seat_selection'">
         <mat-card class="seating-card">
@@ -43,7 +98,10 @@
                     [class.selected]="seat.selected"
                     [ngClass]="{
                         'even-seat': isEvenIndex(seatIndex),
-                        'odd-seat': !isEvenIndex(seatIndex)
+                        'odd-seat': !isEvenIndex(seatIndex),
+                        'seat': true,
+                        'seat-selected': seat.selected,
+                        'seat-disabled': seat.disabled
                     }"
                     (click)="toggleSeat(rowIndex, seatIndex)"
                 >
@@ -98,27 +156,30 @@
 
     <div class="success-container"  *ngIf="currentStep === 'success_selection'">
         <div class="success-icon">
-          <img src="assets/success-icon.png" alt="Success" />
+          <img src="../../assets/images/success-icon.jpg" alt="Success" />
         </div>
         <h1 class="success-title">Payment Successful!</h1>
         <p class="success-message">
           Thank you for your payment. Your booking is confirmed.
         </p>
         <div class="success-details">
-          <p><strong>Transaction ID:</strong> {{ transactionId }}</p>
+          <p><strong>Email:</strong> {{ userData.email }}</p>
+          <p><strong>Phone:</strong> {{ userData.phone }}</p>
+          <p><strong>Boarding Point:</strong> {{ selectedBusDetails.starting_point }}</p>
+          <p><strong>Destination:</strong> {{ selectedBusDetails.ending_point }}</p>
           <p><strong>Seats:</strong> {{ seats.join(', ') }}</p>
           <p><strong>Amount Paid:</strong> ₹{{ amount }}</p>
-          <p><strong>Booking Date:</strong> {{ bookingDate }}</p>
+          <!-- <p><strong>Booking Date:</strong> {{ bookingDate }}</p> -->
         </div>
         <div class="success-actions">
-          <button
+          <!-- <button
             mat-raised-button
             color="primary"
             class="download-button"
             (click)="downloadTicket()"
           >
             Download Ticket
-          </button>
+          </button> -->
           <button
             mat-raised-button
             color="accent"
@@ -128,7 +189,7 @@
             Log Out
           </button>
         </div>
-      </div>
+    </div>
       
 
       

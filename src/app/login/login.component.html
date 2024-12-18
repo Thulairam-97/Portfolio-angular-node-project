@@ -2,7 +2,7 @@
   <mat-card class="login-card">
     <h2>{{ isRegistering ? 'Register' : 'Login' }}</h2>
     <form #authForm="ngForm" (ngSubmit)="onSubmit(isRegistering,authForm)">
-      <!-- Email Field -->
+
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Email</mat-label>
         <input
@@ -22,7 +22,6 @@
         </mat-error>
       </mat-form-field>
 
-      <!-- Phone Number Field (Only for Register) -->
       <div *ngIf="isRegistering">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Phone Number</mat-label>
@@ -44,7 +43,7 @@
         </mat-form-field>
       </div>
 
-      <!-- Password Field -->
+
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Password</mat-label>
         <input
@@ -64,7 +63,7 @@
         </mat-error>
       </mat-form-field>
 
-      <!-- Role Selection (Only for Register) -->
+
       <div *ngIf="isRegistering">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Role</mat-label>
@@ -83,7 +82,7 @@
         </mat-form-field>
       </div>
 
-      <!-- Submit Button -->
+
       <button
         mat-raised-button
         color="primary"

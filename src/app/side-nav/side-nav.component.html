@@ -1,14 +1,12 @@
 <mat-sidenav-container class="sidenav-container">
     <mat-sidenav mode="side" opened>
       <mat-nav-list>
-        <!-- Admin-specific menu -->
         <a mat-list-item routerLink="add_bus" *ngIf="userData?.role === 'Admin'" routerLinkActive="active-link"
         [routerLinkActiveOptions]="{ exact: true }">Add Bus</a>
-  
-        <!-- General menu (visible to non-Admin users) -->
+
         <ng-container *ngIf="userData?.role !== 'Admin'">
           <!-- <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a> -->
-          <a mat-list-item routerLink="bookings" routerLinkActive="active-link"  [routerLinkActiveOptions]="{ exact: true }">Bookings</a>
+          <a mat-list-item routerLink="/dashboard/bookings" routerLinkActive="active-link"  [routerLinkActiveOptions]="{ exact: true }">Bookings</a>
           <!-- <a mat-list-item routerLink="/settings" routerLinkActive="active-link"  [routerLinkActiveOptions]="{ exact: true }">Settings</a> -->
         </ng-container>
       </mat-nav-list>

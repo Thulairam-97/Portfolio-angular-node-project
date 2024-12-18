@@ -31,6 +31,9 @@ export const NODE_API_PATH = new InjectionToken<string>('NODE_API_PATH');
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { DeleteConfirmDialogComponent } from './delete-confirm-dialog/delete-confirm-dialog.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatChipsModule } from '@angular/material/chips';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -44,7 +47,7 @@ import { DeleteConfirmDialogComponent } from './delete-confirm-dialog/delete-con
     SelectionPageComponent,
     BookingComponent,
     AddBusComponent,
-    DeleteConfirmDialogComponent
+    DeleteConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,7 +72,10 @@ import { DeleteConfirmDialogComponent } from './delete-confirm-dialog/delete-con
     MatInputModule,
     MatButtonModule,
     MatTableModule,
-    MatDialogModule
+    MatDialogModule,
+    MatChipsModule,
+    MatProgressBarModule,
+    CommonModule
   ],
   entryComponents: [DeleteConfirmDialogComponent],
   providers: [{

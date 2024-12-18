@@ -14,7 +14,7 @@ export class SelectionPageComponent implements OnInit {
   }
 
   onSelect(option: string) {
-    this.router.navigate(['/dashboard'], { queryParams: { option } });
+    this.router.navigate(['dashboard/bookings'], { queryParams: { option } });
   }
 
 }

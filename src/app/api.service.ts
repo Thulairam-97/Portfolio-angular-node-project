@@ -13,9 +13,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  // login(email: string, password: string) {
-  //   return axios.post(`${this.apiUrl}api/login`, { email, password }); // Use the base URL and append endpoint
-  // }
+
   login(email: string, password: string): Observable<any> {
     const loginUrl = `${this.baseUrl}api/login`; 
     console.log("loginUrl",loginUrl);
@@ -28,7 +26,6 @@ export class ApiService {
     localStorage.setItem('userData', JSON.stringify(data));
   }
 
-  // Method to get user data
   getUserData() {
       const storedData = localStorage.getItem('userData');
       if (storedData) {
@@ -40,7 +37,7 @@ export class ApiService {
 
     logout(): Observable<any> {
       const logoutUrl = `${this.baseUrl}api/login/logout`; 
-      const token = localStorage.getItem('jwtToken'); // Get the JWT token from localStorage
+      const token = localStorage.getItem('jwtToken'); 
     
       const headers = { Authorization: `Bearer ${token}` };
     

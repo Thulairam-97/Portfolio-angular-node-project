@@ -196,3 +196,143 @@
     font-size: 1rem;
   }
   
+
+  .bus-list {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px;
+  
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+  
+      .route {
+        h2 {
+          margin: 0;
+        }
+        span {
+          font-size: 14px;
+          color: gray;
+        }
+      }
+  
+      .actions button {
+        margin-right: 8px;
+      }
+    }
+  
+    .bus-card {
+      margin-bottom: 16px;
+      padding: 16px;
+  
+      .bus-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+  
+        .badge {
+          background: #ffd700;
+          color: black;
+          padding: 4px 8px;
+          font-size: 12px;
+          border-radius: 4px;
+        }
+  
+        .price {
+          font-size: 20px;
+          font-weight: bold;
+          color: #4caf50;
+        }
+      }
+  
+      .bus-details {
+        margin-top: 8px;
+        h3 {
+          margin: 0;
+        }
+        p {
+          margin: 4px 0;
+          color: gray;
+        }
+      }
+  
+      .bus-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 16px;
+  
+        button {
+          margin-right: 8px;
+        }
+  
+        .rating {
+          display: flex;
+          align-items: center;
+          color: #ff9800;
+  
+          mat-icon {
+            margin-right: 4px;
+          }
+        }
+      }
+    }
+  }
+
+
+  .fixed-top-left {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+   /* Ensures it stays on top */
+  }
+  
+  .fixed-top-left button {
+    padding: 10px 20px;
+  }
+  /* Loader Styles */
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px 40px;
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.seat {
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+  text-align: center;
+  line-height: 40px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.seat-selected {
+  background-color: #4caf50;
+  color: white;
+}
+
+.seat-disabled {
+  background-color: #f44336;
+  color: white;
+  pointer-events: none; /* Prevent click events */
+  opacity: 0.6;
+}

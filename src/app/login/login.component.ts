@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
         console.log("this.baseUrl",this.baseUrl);
         
         const api_name = 'api/login/register';
-        const user = { email: encodedEmail, password: encodedPassword, phoneNumber: encodedPhoneNumber, role: this.role };
+        const user = { email: encodedEmail, password: encodedPassword, phoneNumber: encodedPhoneNumber, role: this.role};
         
         this.http.post(`${this.baseUrl}${api_name}`, user).subscribe(
           (response : any) => {
