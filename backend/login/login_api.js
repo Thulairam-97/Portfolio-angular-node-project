@@ -141,7 +141,7 @@ router.route('/register').post(function (req, res) {
 
                     return res.status(200).json({
                         status: 1,
-                        msg: 'User registered succe4ssfully.',
+                        msg: 'User registered successfully.',
                     });
                 }
             );
@@ -152,6 +152,9 @@ router.route('/register').post(function (req, res) {
 router.route('/fetchBuses').post(function (req, res) {
     console.log("fetchreq",req);
     let id = req.body.id;
+    let starting_point = req.body.source;
+    let ending_point = req.body.destination;
+    let travel_date = req.body.travel_date;
     
     let checkUserQuery = 'SELECT * FROM buses';
 
@@ -160,6 +163,10 @@ router.route('/fetchBuses').post(function (req, res) {
     if (id) {
         checkUserQuery += ' WHERE id = ?';
         params.push(id);
+    }
+    if(starting_point && ending_point && travel_date){
+        checkUserQuery += ' WHERE starting_point = ? and ending_point = ? and travel_date = ?';
+        params.push(starting_point,ending_point,travel_date);
     }
     console.log("checkUserQuery",checkUserQuery);
     
@@ -191,16 +198,70 @@ router.route('/fetchBuses').post(function (req, res) {
     });
 });
 
+router.route('/fetchSeats').post(function (req, res) {
+    console.log("fetchreq",req);
+    const { bus_number, travel_date } = req.body.bus;
+    
+    let checkUserQuery = 'SELECT * FROM passenger_details';
+
+    let params = [];
+
+    if(bus_number && travel_date){
+        checkUserQuery += ' WHERE bus_number = ?  and travel_date = ?';
+        params.push(bus_number,travel_date);
+    }
+    // console.log("checkUserQuery",checkUserQuery);
+    
+    mysqlConnection.query(checkUserQuery, params, function (err, result) {
+        if (err) {
+            return res.status(200).json({
+                status: 0,
+                msg: 'Internal Server error.',
+                error: err,
+            });
+        }
+
+        if (result.length == 0) {
+            return res.status(200).json({
+                status: 1,
+                msg: 'No Seats Found',
+            });
+        }
+
+        if (result.length > 0) {
+            let selectedSeats = [];
+            result.forEach((row) => {
+              if (row.seats_selected) {
+                const seats = row.seats_selected.split(",").map((seat) => seat.trim());
+                selectedSeats.push(...seats);
+              }
+            });
+        
+            // Return unique selected seats as an array
+            selectedSeats = [...new Set(selectedSeats)];
+            return res.status(200).json({
+                status: 1,
+                msg: 'Passenger Details Found',
+                data: result,
+                seats: selectedSeats
+            });
+        }
+
+
+    });
+});
+
+
 router.route('/addBuses').post(function (req, res) {
     console.log("req",req);
-    const { bus_number, starting_point, ending_point, travel_date, seats_available, price, arrival_time, departure_time } = req.body;
+    const { bus_number,operator, starting_point, ending_point, travel_date, seats_available, price, arrival_time, departure_time } = req.body;
 
     const checkUserQuery = `
-        INSERT INTO buses (bus_number, starting_point, ending_point, travel_date, seats_available, price, arrival_time, departure_time)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO buses (bus_number,operator, starting_point, ending_point, travel_date, seats_available, price, arrival_time, departure_time)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
-    const values = [bus_number, starting_point, ending_point, travel_date, seats_available, price, arrival_time, departure_time];
+    const values = [bus_number,operator, starting_point, ending_point, travel_date, seats_available, price, arrival_time, departure_time];
 
 
     mysqlConnection.query(checkUserQuery, values, function (err, result) {
@@ -226,7 +287,7 @@ router.route('/addBuses').post(function (req, res) {
 });
 
 router.route('/editBuses').post(function (req, res) {
-    const { id, bus_number, starting_point, ending_point, travel_date, seats_available, price, arrival_time, departure_time } = req.body;
+    const { id, bus_number,operator, starting_point, ending_point, travel_date, seats_available, price, arrival_time, departure_time } = req.body;
 
     if (!id) {
         return res.status(200).json({
@@ -239,6 +300,7 @@ router.route('/editBuses').post(function (req, res) {
         UPDATE buses
         SET 
             bus_number = ?, 
+            operator = ?,
             starting_point = ?, 
             ending_point = ?, 
             travel_date = ?, 
@@ -250,7 +312,7 @@ router.route('/editBuses').post(function (req, res) {
     `;
     console.log("updateBusQuery",updateBusQuery);
     
-    const values = [bus_number, starting_point, ending_point, travel_date, seats_available, price, arrival_time, departure_time, id];
+    const values = [bus_number, operator, starting_point, ending_point, travel_date, seats_available, price, arrival_time, departure_time, id];
 
     mysqlConnection.query(updateBusQuery, values, function (err, result) {
         if (err) {
@@ -294,6 +356,45 @@ router.route('/deleteBuses').post(function (req, res) {
       res.status(200).json({ msg: 'Bus deleted successfully.' });
     });
   });
+
+
+  router.route('/addPassenger').post(function (req, res) {
+    console.log("req",req);
+    const { bus_number,operator, starting_point, ending_point, travel_date, seats_selected, amount, arrival_time, departure_time, } = req.body.bus;
+
+    const { email, phone, id } = req.body.user;
+
+    const seats = seats_selected.join(',');
+
+    const checkUserQuery = `
+        INSERT INTO passenger_details (bus_number,operator, source, destination, travel_date, seats_selected, price, arrival_time, departure_time, email, phone , user_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const values = [bus_number,operator, starting_point, ending_point, travel_date, seats, amount, arrival_time, departure_time, email, phone, id ];
+
+
+    mysqlConnection.query(checkUserQuery, values, function (err, result) {
+        if (err) {
+            return res.status(200).json({
+                status: 0,
+                msg: 'Internal Server error.',
+                error: err,
+            });
+        }
+
+
+        if (result) {
+            return res.status(200).json({
+                status: 1,
+                msg: 'Booked Successfully',
+                busId: result.insertId
+            });
+        }
+
+
+    });
+});
 
  
 
