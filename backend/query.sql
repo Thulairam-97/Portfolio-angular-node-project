@@ -9,7 +9,7 @@ create table users (
   `role` varchar(30) DEFAULT NULL,
   `entered_by` int DEFAULT NULL,
   `entered_date` datetime DEFAULT NULL,
-  `updated_by` int DEFAULT NULL,
+  `updated_by` varchar(255) DEFAULT NULL,
   `updated_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `status` varchar(10) DEFAULT 'A'
 ) 
@@ -49,6 +49,14 @@ create table passenger_details (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by int DEFAULT 1
+);
+
+CREATE TABLE api_log (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  url VARCHAR(255) NOT NULL,
+  user_id INT NOT NULL,
+  platform VARCHAR(255),
+  data TEXT
 );
 
 -- create table login_log (
