@@ -50,6 +50,7 @@ export class AddBusComponent implements OnInit {
 
 
   openAddBusDialog(dialogTemplate: any) {
+    this.addBusForm.reset();
     const dialogRef = this.dialog.open(dialogTemplate, {
       width: '600px',
       maxHeight: '90vh',
@@ -76,7 +77,8 @@ export class AddBusComponent implements OnInit {
       this.isEditing = true;
     }
 
-    const url = `${this.baseUrl}api/login/fetchBuses`; 
+    // const url = `${this.baseUrl}api/login/fetchBuses`; //node
+    const url = `${this.baseUrl}api/fetchBuses`; //java
 
     this.http.post(url,{id: id}).subscribe((data: any) => {
       if (data.status === 1) {
@@ -115,8 +117,9 @@ export class AddBusComponent implements OnInit {
     this.isEditing = false;
     if (this.addBusForm.valid) {
       const newBus = this.addBusForm.value;
-
-      this.http.post(this.baseUrl+'api/login/addBuses', newBus).subscribe((response: any) => {
+      // let api = this.baseUrl+'api/login/addBuses'; //node
+      let api = this.baseUrl+'api/addBuses';  //java
+      this.http.post(api, newBus).subscribe((response: any) => {
         this.showErrorMessage(response.msg);
         this.fetchBuses('');
         this.dialog.closeAll();
@@ -129,8 +132,9 @@ export class AddBusComponent implements OnInit {
   editBus() {
         const newBus = this.addBusForm.value;
       console.log("this.addBusForm edit",this.addBusForm.value);
-      
-      this.http.post(this.baseUrl+'api/login/editBuses', newBus).subscribe((response: any) => {
+      // let api = this.baseUrl+'api/login/editBuses'; //node 
+      let api = this.baseUrl+'api/editBuses'; //java
+      this.http.post(api, newBus).subscribe((response: any) => {
         this.showErrorMessage(response.msg);
         this.fetchBuses('');
         this.isEditing = false;
@@ -147,8 +151,9 @@ export class AddBusComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        
-        this.http.post(this.baseUrl+'api/login/deleteBuses', {id: busId}).subscribe((response: any) => {
+        // let api = this.baseUrl+'api/login/deleteBuses'; //node
+        let api = this.baseUrl+'api/deleteBuses'; //java
+        this.http.post(api, {id: busId}).subscribe((response: any) => {
           this.showErrorMessage(response.msg);
           this.fetchBuses('');  // Refresh the list of buses
         }, (error) => {

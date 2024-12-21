@@ -56,7 +56,8 @@ export class BookingComponent implements OnInit {
 
   fetchBuses() {
 
-    const url = `${this.baseUrl}api/login/fetchBuses`; 
+    // const url = `${this.baseUrl}api/login/fetchBuses`; //node
+    const url = `${this.baseUrl}api/fetchBuses`;  //java
     let input = {
         source : this.source,
         destination: this.destination,
@@ -176,12 +177,13 @@ export class BookingComponent implements OnInit {
 
   seatChoose(bus: any){   
     this.currentStep = 'seat_selection';
-    const url = `${this.baseUrl}api/login/fetchSeats`;     
-    let input = {
-        bus
-    }
+    // const url = `${this.baseUrl}api/login/fetchSeats`;  //node
+    const url = `${this.baseUrl}api/fetchSeats`; //java   
+    // let input = {
+    //     bus
+    // }
 
-    this.http.post(url,input).subscribe((data: any) => {
+    this.http.post(url,bus).subscribe((data: any) => {
       if (data.status === 1) {
           // this.busList = data.data;
           this.seatingRows = [];
@@ -223,7 +225,8 @@ export class BookingComponent implements OnInit {
   makePayment() {
     this.currentStep = 'success_selection';
     this.showErrorMessage('Payment successful! Thank you for booking.');
-    const url = `${this.baseUrl}api/login/addPassenger`; 
+    // const url = `${this.baseUrl}api/login/addPassenger`; //node
+    const url = `${this.baseUrl}api/addPassenger`;  //java
     
     let input = {
         user : this.userData,

@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-   private baseUrl: string = 'http://localhost:7000/';
+  //  private baseUrl: string = 'http://localhost:7000/'; //NodeJs
+   private baseUrl: string = 'http://localhost:8080/';  // Java
    private userData: any;
 
   constructor(private http: HttpClient) { }
@@ -17,6 +18,9 @@ export class ApiService {
   login(email: string, password: string): Observable<any> {
     const loginUrl = `${this.baseUrl}api/login`; 
     console.log("loginUrl",loginUrl);
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    // });
     
     return this.http.post(loginUrl, { email, password }); 
   }
@@ -36,12 +40,18 @@ export class ApiService {
 
 
     logout(): Observable<any> {
-      const logoutUrl = `${this.baseUrl}api/login/logout`; 
+      // const logoutUrl = `${this.baseUrl}api/login/logout`;  //node
+      const logoutUrl = `${this.baseUrl}api/logout`; // java
+      // const token = localStorage.getItem('jwtToken'); 
+    
+      // const headers = { Authorization: `Bearer ${token}` };
+    
+      // return this.http.post(logoutUrl, {}, { headers });
       const token = localStorage.getItem('jwtToken'); 
     
       const headers = { Authorization: `Bearer ${token}` };
     
-      return this.http.post(logoutUrl, {}, { headers });
+      return this.http.post(logoutUrl, {}, );
     }
 }
 

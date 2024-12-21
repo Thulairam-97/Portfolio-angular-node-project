@@ -54,7 +54,8 @@ export class LoginComponent implements OnInit {
         const encodedPhoneNumber = btoa(this.phoneNumber);
         console.log("this.baseUrl",this.baseUrl);
         
-        const api_name = 'api/login/register';
+        // const api_name = 'api/login/register'; //node 
+        const api_name = 'api/register'; //java
         const user = { email: encodedEmail, password: encodedPassword, phoneNumber: encodedPhoneNumber, role: this.role};
         
         this.http.post(`${this.baseUrl}${api_name}`, user).subscribe(

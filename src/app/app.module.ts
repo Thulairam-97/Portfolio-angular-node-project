@@ -83,7 +83,8 @@ import { CommonModule } from '@angular/common';
       useClass: AuthInterceptor,
       multi: true,  // Ensure multiple interceptors can be used
     },
-    { provide: NODE_API_PATH, useValue: 'http://localhost:7000/' }],
+    // { provide: NODE_API_PATH, useValue: 'http://localhost:7000/' }],
+    { provide: NODE_API_PATH, useValue: 'http://localhost:8080/' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
