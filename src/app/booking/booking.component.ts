@@ -35,6 +35,7 @@ export class BookingComponent implements OnInit {
     'Tirunelveli', 'Erode', 'Tirupur', 'Vellore', 'Thoothukudi'
   ];
   filteredCities: string[] = [...this.cities]; 
+  filteredAndSortedBuses : any[] = [];
   busList : any[] = [];
   source: string = '';
   destination: string = '';
@@ -47,6 +48,59 @@ export class BookingComponent implements OnInit {
   selectedBusDetails : any;
   userData : any;
   selectedSeat: any[] = [];
+  showFilterMenu = false;
+  showSortMenu = false;
+
+  toggleFilterMenu() {
+    this.showFilterMenu = !this.showFilterMenu;
+    this.showSortMenu = false;
+  }
+
+  toggleSortMenu() {
+    this.showSortMenu = !this.showSortMenu;
+    this.showFilterMenu = false;
+  }
+
+    applyFilter(type: string, value: string) {
+      if (type === 'time') {
+        this.filteredAndSortedBuses = this.busList.filter((bus) => {
+          console.log("bus",bus);
+          
+          const [start, end] = value.split('-').map(Number);
+          const departureHour = Number(bus.departure_time.split(':')[0]);
+          console.log(start,"-",end,"=",departureHour);
+          
+          return departureHour >= start && departureHour < end;
+        });
+      } else if (type === 'price') {
+        this.filteredAndSortedBuses = this.busList.filter((bus) => {
+          if (value === '1400+') return bus.price >= 1400;
+          const [min, max] = value.split('-').map(Number);
+          return bus.price >= min && bus.price <= max;
+        });
+      }
+      this.toggleFilterMenu();
+    }
+
+    applySort(type: string, order: string) {
+      if (type === 'time') {
+        this.filteredAndSortedBuses.sort((a, b) => {
+          const timeA = this.parseTimeToMinutes(a.departure_time);
+          const timeB = this.parseTimeToMinutes(b.departure_time);
+          return order === 'early' ? timeA - timeB : timeB - timeA;
+        });
+      } else if (type === 'price') {
+        this.filteredAndSortedBuses.sort((a, b) =>
+          order === 'low-high' ? a.price - b.price : b.price - a.price
+        );
+      }
+      this.toggleSortMenu();
+    }
+
+    parseTimeToMinutes(time: string): number {
+      const [hours, minutes] = time.split(':').map(Number);
+      return hours * 60 + minutes;
+    }
 
   // this.userData = this.apiService.getUserData();
 
@@ -67,6 +121,7 @@ export class BookingComponent implements OnInit {
     this.http.post(url,input).subscribe((data: any) => {
       if (data.status === 1) {
           this.busList = data.data;
+          this.filteredAndSortedBuses = [...this.busList];
       }
       else {
         this.showErrorMessage(data.msg);

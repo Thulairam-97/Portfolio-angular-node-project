@@ -38,23 +38,84 @@
     </mat-card>
     
 
-    <div class="bus-list" *ngIf="currentStep === 'bus_selection' && busList.length > 0">
+    <div class="bus-list" *ngIf="currentStep === 'bus_selection' && filteredAndSortedBuses.length > 0">
       <div class="header">
         <div class="route">
-          <h2>{{this.source}} ➔ {{this.destination}}</h2>
-          <span>{{busList.length}} Buses</span>
+          <h2>{{ source }} ➔ {{ destination }}</h2>
+          <span>{{ filteredAndSortedBuses.length }} Buses</span>
         </div>
         <div class="actions">
-          <button mat-button>
-            <mat-icon>filter_alt</mat-icon> Filters
-          </button>
-          <button mat-button>
-            <mat-icon>sort</mat-icon> Sort
-          </button>
+          <!-- Filter Button -->
+          <div class="dropdown">
+            <button mat-button (click)="toggleFilterMenu()">
+              <mat-icon>filter_alt</mat-icon> Filters
+            </button>
+            <div class="dropdown-menu" *ngIf="showFilterMenu">
+              <h4 style="font-weight: bold;">Timings</h4>
+              <label>
+                <input type="radio" name="timeFilter" value="6-12" (change)="applyFilter('time', '6-12')" />
+                6 AM - 12 PM
+              </label>
+              <label>
+                <input type="radio" name="timeFilter" value="13-19" (change)="applyFilter('time', '13-19')" />
+                1 PM - 7 PM
+              </label>
+              <label>
+                <input type="radio" name="timeFilter" value="19-24" (change)="applyFilter('time', '19-24')" />
+                7 PM - 12 AM
+              </label>
+              <label>
+                <input type="radio" name="timeFilter" value="0-6" (change)="applyFilter('time', '0-6')" />
+                12 AM - 6 AM
+              </label>
+    
+              <h4 style="font-weight: bold;">Price</h4>
+              <label>
+                <input type="radio" name="priceFilter" value="500-700" (change)="applyFilter('price', '500-700')" />
+                ₹500 - ₹700
+              </label>
+              <label>
+                <input type="radio" name="priceFilter" value="700-1400" (change)="applyFilter('price', '700-1400')" />
+                ₹700 - ₹1400
+              </label>
+              <label>
+                <input type="radio" name="priceFilter" value="1400+" (change)="applyFilter('price', '1400+')" />
+                ₹1400+
+              </label>
+            </div>
+          </div>
+    
+          <!-- Sort Button -->
+          <div class="dropdown">
+            <button mat-button (click)="toggleSortMenu()">
+              <mat-icon>sort</mat-icon> Sort
+            </button>
+            <div class="dropdown-menu" *ngIf="showSortMenu">
+              <h4 style="font-weight: bold;">Timing</h4>
+              <label>
+                <input type="radio" name="timeSort" value="early" (change)="applySort('time', 'early')" />
+                Early Arrival & Departure
+              </label>
+              <label>
+                <input type="radio" name="timeSort" value="late" (change)="applySort('time', 'late')" />
+                Late Arrival & Departure
+              </label>
+    
+              <h4 style="font-weight: bold;">Price</h4>
+              <label>
+                <input type="radio" name="priceSort" value="low-high" (change)="applySort('price', 'low-high')" />
+                Price: Low to High
+              </label>
+              <label>
+                <input type="radio" name="priceSort" value="high-low" (change)="applySort('price', 'high-low')" />
+                Price: High to Low
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     
-      <mat-card *ngFor="let bus of busList" class="bus-card">
+      <mat-card *ngFor="let bus of filteredAndSortedBuses" class="bus-card">
         <div class="bus-header">
           <span class="timing">{{ bus.departure_time }} - {{ bus.arrival_time }}</span>
           <span class="price">₹{{ bus.price }}</span>
@@ -75,7 +136,7 @@
       </mat-card>
     </div>
 
-    <div class="bus-list" *ngIf="currentStep === 'bus_selection' && busList?.length === 0">
+    <div class="bus-list" *ngIf="currentStep === 'bus_selection' && filteredAndSortedBuses?.length === 0">
           <p>No Buses Found</p>
           <button
           mat-raised-button
